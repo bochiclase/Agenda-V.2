@@ -5,9 +5,9 @@ import java.util.*;
 
 public class Run {
 	/*
-	 * - Falta salto de linea al guardar el fichero
+	 * - Despues de cargar no puedo usar el comando buscar
 	 * 
-	 * - No funciona cargar
+	 * - Escribir linea a linea en el fichero
 	 */
 
 	public static void main(String[] args) {
@@ -60,7 +60,7 @@ public class Run {
 
 				}
 
-				else {
+				else if (!agenda.containsKey(nombre)) {
 					System.out.println("El nombre no esta ni se le espera ;) ");
 					System.out.println("");
 					nombre = null;
@@ -124,10 +124,11 @@ public class Run {
 
 				partes = teclado.split(":");
 				String nombre = partes[0];
-				String numero = partes[1];
-				fichero = new File(numero);
+				String ruta = partes[1];
+				fichero = new File(ruta);
 				nombre = null;
-				numero = null;
+				ruta = null;
+				
 				try {
 					// Leemos el contenido del fichero
 					s = new Scanner(fichero);
@@ -135,21 +136,20 @@ public class Run {
 					// Leemos linea a linea el fichero
 					while (s.hasNextLine()) {
 						String linea = s.nextLine(); // Guardamos la linea en un String
-
 						partes = linea.split("-");
 						String nombre2 = partes[0];
 						String numero2 = partes[1];
-						fichero = new File(numero);
+				
 
 						if (!agenda.containsKey(nombre2)) {
 							agenda.put(nombre2, numero2);
+							System.out.println("El contacto se ha cargado correctamente en la agenda desde el fichero");
 							nombre2 = null;
 							numero2 = null;
-							System.out.println("El contacto se ha cargado correctamente en la agenda desde el fichero");
 						} else {
 							System.out.println("El número ya está en la Agenda");
 							System.out.println("¿Qué desea hacer? Escriba el numero de la orden");
-							System.out.println("1. Desea guardar " + agenda.get(nombre2));
+							System.out.println("1. Desea guardar " + nombre + "-" + agenda.get(nombre2));
 							System.out.println("2. Desea guardar " + nombre2 + "-" + numero2);
 							System.out.print("> ");
 							pregunta = r.nextInt();
@@ -159,14 +159,17 @@ public class Run {
 											.println("El teléfono que estaba en la Agenda ha sido guardado con exito");
 									nombre2 = null;
 									numero2 = null;
+									pregunta = 0;
 								} else if (pregunta == 2) {
 									agenda.put(nombre2, numero2);
 									nombre2 = null;
 									numero2 = null;
 									System.out.println(
 											"Se ha sobrescribido el número que estaba en la Agenda por el del fichero");
+									pregunta =0;
 								} else {
 									System.out.println("Se esperaba un 1 o un 2");
+									pregunta =0;
 								}
 
 							} while (pregunta != 1 || pregunta != 2);
@@ -193,6 +196,7 @@ public class Run {
 			}
 
 		} while (!teclado.contains("fin"));
+		System.out.println("Ha salido correctamente de la agenda");
 		r.close();
 	}
 
