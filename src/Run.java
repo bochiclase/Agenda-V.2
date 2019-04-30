@@ -137,8 +137,8 @@ public class Run {
 					while (s.hasNextLine()) {
 						String linea = s.nextLine(); // Guardamos la linea en un String
 						partes = linea.split("-");
-						String nombre2 = partes[0];
-						String numero2 = partes[1];
+						String nombre2 = partes[0].trim();
+						String numero2 = partes[1].trim();
 				
 
 						if (!agenda.containsKey(nombre2)) {
